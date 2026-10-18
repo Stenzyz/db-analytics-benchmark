@@ -1,0 +1,98 @@
+# Три СУБД для сравнительного бенчмарка на аналитической нагрузке.
+# Версии образов зафиксированы явно (без тега latest) для воспроизводимости.
+# Ресурсы контейнерам намеренно не ограничиваются: все три работают на одной
+# машине в равных условиях; это оговорено в METHODOLOGY.md. При необходимости
+# раскомментируйте блоки deploy.resources и задайте одинаковые лимиты.
+
+services:
+
+  clickhouse:
+    image: clickhouse/clickhouse-server:24.8
+    container_name: bench-clickhouse
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+    environment:
+      CLICKHOUSE_USER: ${CH_USER:-bench}
+      CLICKHOUSE_PASSWORD: ${CH_PASSWORD:-bench}
+      CLICKHOUSE_DB: ${CH_DB:-bench}
+      CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: "1"
+    ports:
+      - "${CH_HTTP_PORT:-8123}:8123"
+      - "${CH_TCP_PORT:-9000}:9000"
+    volumes:
+      - clickhouse_data:/var/lib/clickhouse
+    healthcheck:
+      test: ["CMD", "clickhouse-client", "--user", "${CH_USER:-bench}", "--password", "${CH_PASSWORD:-bench}", "--query", "SELECT 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    # deploy:
+    #   resources:
+    #     limits:
+    #       cpus: "4"
+    #       memory: 8g
+
+  postgres:
+    image: postgres:16.4
+    container_name: bench-postgres
+    environment:
+      POSTGRES_USER: ${PG_USER:-bench}
+      POSTGRES_PASSWORD: ${PG_PASSWORD:-bench}
+      POSTGRES_DB: ${PG_DB:-bench}
+    ports:
+      - "${PG_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    # Параметры по умолчанию намеренно не трогаются (см. раздел ограничений).
+    # Исключение — shared_buffers оставлен дефолтным; любые изменения фиксируйте здесь.
+    command:
+      - "postgres"
+      - "-c"
+      - "max_wal_size=4GB"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${PG_USER:-bench} -d ${PG_DB:-bench}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    # deploy:
+    #   resources:
+    #     limits:
+    #       cpus: "4"
+    #       memory: 8g
+
+  mysql:
+    image: mysql:8.4
+    container_name: bench-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
+      MYSQL_DATABASE: ${MYSQL_DB:-bench}
+      MYSQL_USER: ${MYSQL_USER:-bench}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-bench}
+    ports:
+      - "${MYSQL_PORT:-3306}:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    # local_infile включён для загрузки подмножества через LOAD DATA LOCAL INFILE.
+    command:
+      - "--local-infile=1"
+      - "--secure-file-priv="
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD:-root}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    # deploy:
+    #   resources:
+    #     limits:
+    #       cpus: "4"
+    #       memory: 8g
+
+volumes:
+  clickhouse_data:
+    name: bench-clickhouse-data
+  postgres_data:
+    name: bench-postgres-data
+  mysql_data:
+    name: bench-mysql-data

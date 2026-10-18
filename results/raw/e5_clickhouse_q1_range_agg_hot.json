@@ -1,0 +1,18 @@
+{
+  "engine": "clickhouse",
+  "experiment": "e5_cross_db",
+  "query": "q1_range_agg",
+  "mode": "hot",
+  "sql": "SELECT payment_type,\n       count()               AS trips,\n       sum(total_amount)     AS revenue,\n       avg(trip_distance)    AS avg_distance\nFROM trips_subset\nWHERE pickup_datetime >= '2019-12-01 00:00:00'\n  AND pickup_datetime <  '2020-01-01 00:00:00'\nGROUP BY payment_type\nORDER BY revenue DESC",
+  "median_ms": 106.01,
+  "min_ms": 105.12,
+  "max_ms": 121.11,
+  "runs": [
+    121.11,
+    106.01,
+    110.64,
+    105.35,
+    105.12
+  ],
+  "read_rows": 2000000
+}

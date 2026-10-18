@@ -1,0 +1,18 @@
+{
+  "engine": "mysql",
+  "experiment": "e5_cross_db",
+  "query": "q3_selective_point",
+  "mode": "hot",
+  "sql": "SELECT pickup_datetime, pu_location_id, do_location_id, total_amount\nFROM trips\nWHERE pu_location_id = 132\n  AND pickup_datetime >= '2019-12-31 00:00:00'\n  AND pickup_datetime <  '2020-01-01 00:00:00'\nORDER BY pickup_datetime\nLIMIT 100",
+  "median_ms": 76.81,
+  "min_ms": 76.43,
+  "max_ms": 80.95,
+  "runs": [
+    76.81,
+    76.82,
+    80.95,
+    76.44,
+    76.43
+  ],
+  "explain": "-> Limit: 100 row(s)  (cost=7204 rows=100) (actual time=0.0166..0.133 rows=100 loops=1)\\n    -> Index range scan on trips using idx_trips_pu_pickup over (pu_location_id = 132 AND '2019-12-31 00:00:00' <= pickup_datetime < '2020-01-01 00:00:00'), with index condition: ((trips.pu_location_id = 132) and (trips.pickup_datetime >= TIMESTAMP'2019-12-31 00:00:00') and (trips.pickup_datetime < TIMESTAMP'2020-01-01 00:00:00'))  (cost=7204 rows=6618) (actual time=0.0157..0.129 rows=100 loops=1)\\n\n"
+}

@@ -1,0 +1,20 @@
+{
+  "engine": "clickhouse",
+  "experiment": "e4_mv",
+  "config": "materialized_view",
+  "query": "q4_mv",
+  "mode": "hot",
+  "sql": "SELECT day,\n       payment_type,\n       sum(trips)   AS trips,\n       sum(revenue) AS revenue\nFROM daily_revenue\nGROUP BY day, payment_type\nORDER BY day, payment_type",
+  "median_ms": 2,
+  "min_ms": 2,
+  "max_ms": 2,
+  "runs": [
+    2,
+    2,
+    2,
+    2,
+    2
+  ],
+  "read_rows": 768,
+  "read_bytes": 14592
+}

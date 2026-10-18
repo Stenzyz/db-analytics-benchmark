@@ -1,0 +1,19 @@
+{
+  "engine": "postgres",
+  "experiment": "e5_cross_db",
+  "query": "q3_selective_point",
+  "config": "with_index",
+  "mode": "hot",
+  "sql": "SELECT pickup_datetime, pu_location_id, do_location_id, total_amount\nFROM trips\nWHERE pu_location_id = 132\n  AND pickup_datetime >= '2019-12-31 00:00:00'\n  AND pickup_datetime <  '2020-01-01 00:00:00'\nORDER BY pickup_datetime\nLIMIT 100",
+  "median_ms": 94.04,
+  "min_ms": 93.14,
+  "max_ms": 97.17,
+  "runs": [
+    94.04,
+    97.17,
+    93.48,
+    95.07,
+    93.14
+  ],
+  "explain": "[\n  {\n    \"Plan\": {\n      \"Node Type\": \"Limit\",\n      \"Parallel Aware\": false,\n      \"Async Capable\": false,\n      \"Startup Cost\": 0.43,\n      \"Total Cost\": 110.14,\n      \"Plan Rows\": 100,\n      \"Plan Width\": 20,\n      \"Actual Startup Time\": 0.016,\n      \"Actual Total Time\": 0.197,\n      \"Actual Rows\": 100,\n      \"Actual Loops\": 1,\n      \"Shared Hit Blocks\": 62,\n      \"Shared Read Blocks\": 0,\n      \"Shared Dirtied Blocks\": 0,\n      \"Shared Written Blocks\": 0,\n      \"Local Hit Blocks\": 0,\n      \"Local Read Blocks\": 0,\n      \"Local Dirtied Blocks\": 0,\n      \"Local Written Blocks\": 0,\n      \"Temp Read Blocks\": 0,\n      \"Temp Written Blocks\": 0,\n      \"Plans\": [\n        {\n          \"Node Type\": \"Index Scan\",\n          \"Parent Relationship\": \"Outer\",\n          \"Parallel Aware\": false,\n          \"Async Capable\": false,\n          \"Scan Direction\": \"Forward\",\n          \"Index Name\": \"idx_trips_pickup\",\n          \"Relation Name\": \"trips\",\n          \"Alias\": \"trips\",\n          \"Startup Cost\": 0.43,\n          \"Total Cost\": 7021.86,\n          \"Plan Rows\": 6400,\n          \"Plan Width\": 20,\n          \"Actual Startup Time\": 0.016,\n          \"Actual Total Time\": 0.191,\n          \"Actual Rows\": 100,\n          \"Actual Loops\": 1,\n          \"Index Cond\": \"((pickup_datetime >= '2019-12-31 00:00:00'::timestamp without time zone) AND (pickup_datetime < '2020-01-01 00:00:00'::timestamp without time zone))\",\n          \"Rows Removed by Index Recheck\": 0,\n          \"Filter\": \"(pu_location_id = 132)\",\n          \"Rows Removed by Filter\": 1672,\n          \"Shared Hit Blocks\": 62,\n          \"Shared Read Blocks\": 0,\n          \"Shared Dirtied Blocks\": 0,\n          \"Shared Written Blocks\": 0,\n          \"Local Hit Blocks\": 0,\n          \"Local Read Blocks\": 0,\n          \"Local Dirtied Blocks\": 0,\n          \"Local Written Blocks\": 0,\n          \"Temp Read Blocks\": 0,\n          \"Temp Written Blocks\": 0\n        }\n      ]\n    },\n    \"Planning\": {\n      \"Shared Hit Blocks\": 110,\n      \"Shared Read Blocks\": 0,\n      \"Shared Dirtied Blocks\": 0,\n      \"Shared Written Blocks\": 0,\n      \"Local Hit Blocks\": 0,\n      \"Local Read Blocks\": 0,\n      \"Local Dirtied Blocks\": 0,\n      \"Local Written Blocks\": 0,\n      \"Temp Read Blocks\": 0,\n      \"Temp Written Blocks\": 0\n    },\n    \"Planning Time\": 0.295,\n    \"Triggers\": [\n    ],\n    \"Execution Time\": 0.219\n  }\n]\n"
+}

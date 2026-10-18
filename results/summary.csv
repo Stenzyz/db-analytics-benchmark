@@ -1,0 +1,15 @@
+experiment,engine,config,query,mode,repeats,median_ms,min_ms,max_ms,read_rows,read_bytes
+e2_sortkey,clickhouse,orderby_payment,q1_day_agg,hot,5,8,7,8,5193728,24465542
+e2_sortkey,clickhouse,orderby_pickup,q1_day_agg,hot,5,8,7,8,245760,3194880
+e3_partition,clickhouse,by_day_counterexample,q1_range_agg,hot,5,31,30,34,6895933,89647129
+e3_partition,clickhouse,by_month,q1_range_agg,hot,5,21,19,21,6895933,89647129
+e3_partition,clickhouse,no_partition,q1_range_agg,hot,5,19,18,21,6896735,89657555
+e4_mv,clickhouse,materialized_view,q4_mv,hot,5,2,2,2,768,14592
+e4_mv,clickhouse,raw_table,q4_raw,hot,5,136,132,144,33627231,302645079
+e5_cross_db,clickhouse,trips_subset,q1_range_agg,hot,5,106.01,105.12,121.11,2000000,26000000
+e5_cross_db,clickhouse,trips_subset,q3_selective_point,hot,5,100.55,99.05,112.89,65409,784908
+e5_cross_db,mysql,default,q1_range_agg,hot,5,1351.78,1322.39,1530.42,,
+e5_cross_db,mysql,default,q3_selective_point,hot,5,76.81,76.43,80.95,,
+e5_cross_db,postgres,no_index,q3_selective_point,hot,5,141.84,138.49,146.15,,
+e5_cross_db,postgres,with_index,q1_range_agg,hot,5,234.65,222.57,242.13,,
+e5_cross_db,postgres,with_index,q3_selective_point,hot,5,94.04,93.14,97.17,,

@@ -1,0 +1,20 @@
+{
+  "engine": "clickhouse",
+  "experiment": "e2_sortkey",
+  "config": "orderby_payment",
+  "query": "q1_day_agg",
+  "mode": "hot",
+  "sql": "SELECT payment_type,\n       count()               AS trips,\n       sum(total_amount)     AS revenue,\n       avg(trip_distance)    AS avg_distance\nFROM trips_sortkey_payment\nWHERE pickup_datetime >= '2019-12-15 00:00:00'\n  AND pickup_datetime <  '2019-12-16 00:00:00'\nGROUP BY payment_type\nORDER BY revenue DESC",
+  "median_ms": 8,
+  "min_ms": 7,
+  "max_ms": 8,
+  "runs": [
+    8,
+    8,
+    7,
+    8,
+    8
+  ],
+  "read_rows": 5193728,
+  "read_bytes": 24465542
+}

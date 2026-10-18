@@ -1,0 +1,18 @@
+{
+  "engine": "mysql",
+  "experiment": "e5_cross_db",
+  "query": "q1_range_agg",
+  "mode": "hot",
+  "sql": "SELECT payment_type,\n       count(*)              AS trips,\n       sum(total_amount)     AS revenue,\n       avg(trip_distance)    AS avg_distance\nFROM trips\nWHERE pickup_datetime >= '2019-12-01 00:00:00'\n  AND pickup_datetime <  '2020-01-01 00:00:00'\nGROUP BY payment_type\nORDER BY revenue DESC",
+  "median_ms": 1351.78,
+  "min_ms": 1322.39,
+  "max_ms": 1530.42,
+  "runs": [
+    1325.27,
+    1351.78,
+    1322.39,
+    1508.18,
+    1530.42
+  ],
+  "explain": "-> Sort: revenue DESC  (actual time=1383..1383 rows=5 loops=1)\\n    -> Table scan on <temporary>  (actual time=1383..1383 rows=5 loops=1)\\n        -> Aggregate using temporary table  (actual time=1383..1383 rows=5 loops=1)\\n            -> Filter: ((trips.pickup_datetime >= TIMESTAMP'2019-12-01 00:00:00') and (trips.pickup_datetime < TIMESTAMP'2020-01-01 00:00:00'))  (cost=207851 rows=995841) (actual time=0.322..881 rows=2e+6 loops=1)\\n                -> Table scan on trips  (cost=207851 rows=1.99e+6) (actual time=0.32..721 rows=2e+6 loops=1)\\n\n"
+}

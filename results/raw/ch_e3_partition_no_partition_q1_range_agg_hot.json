@@ -1,0 +1,20 @@
+{
+  "engine": "clickhouse",
+  "experiment": "e3_partition",
+  "config": "no_partition",
+  "query": "q1_range_agg",
+  "mode": "hot",
+  "sql": "SELECT payment_type,\n       count()               AS trips,\n       sum(total_amount)     AS revenue,\n       avg(trip_distance)    AS avg_distance\nFROM trips_no_partition\nWHERE pickup_datetime >= '2019-12-01 00:00:00'\n  AND pickup_datetime <  '2020-01-01 00:00:00'\nGROUP BY payment_type\nORDER BY revenue DESC",
+  "median_ms": 19,
+  "min_ms": 18,
+  "max_ms": 21,
+  "runs": [
+    19,
+    21,
+    18,
+    21,
+    18
+  ],
+  "read_rows": 6896735,
+  "read_bytes": 89657555
+}

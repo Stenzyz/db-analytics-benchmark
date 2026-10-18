@@ -1,0 +1,4 @@
+{
+  "table_total": "trips\t33627231\t643.64 MiB\t1.00 GiB\t1.6",
+  "by_column": "tolls_amount\t4.53 MiB\t7.21\npickup_datetime\t43.27 MiB\t2.93\npayment_type\t14.52 MiB\t2.19\nvendor_id\t15.27 MiB\t2.08\npassenger_count\t18.37 MiB\t1.72\ntip_amount\t77.80 MiB\t1.63\ntotal_amount\t90.17 MiB\t1.4\nfare_amount\t91.17 MiB\t1.39\npu_location_id\t46.10 MiB\t1.37\ndropoff_datetime\t92.84 MiB\t1.36\ntrip_distance\t93.91 MiB\t1.35\ndo_location_id\t47.19 MiB\t1.34"
+}

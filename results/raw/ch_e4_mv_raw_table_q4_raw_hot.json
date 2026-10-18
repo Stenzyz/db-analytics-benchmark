@@ -1,0 +1,20 @@
+{
+  "engine": "clickhouse",
+  "experiment": "e4_mv",
+  "config": "raw_table",
+  "query": "q4_raw",
+  "mode": "hot",
+  "sql": "SELECT toDate(pickup_datetime) AS day,\n       payment_type,\n       count()                 AS trips,\n       sum(total_amount)       AS revenue\nFROM trips\nGROUP BY day, payment_type\nORDER BY day, payment_type",
+  "median_ms": 136,
+  "min_ms": 132,
+  "max_ms": 144,
+  "runs": [
+    143,
+    136,
+    144,
+    135,
+    132
+  ],
+  "read_rows": 33627231,
+  "read_bytes": 302645079
+}

@@ -1,0 +1,18 @@
+{
+  "engine": "clickhouse",
+  "experiment": "e5_cross_db",
+  "query": "q3_selective_point",
+  "mode": "hot",
+  "sql": "SELECT pickup_datetime, pu_location_id, do_location_id, total_amount\nFROM trips_subset\nWHERE pu_location_id = 132\n  AND pickup_datetime >= '2019-12-31 00:00:00'\n  AND pickup_datetime <  '2020-01-01 00:00:00'\nORDER BY pickup_datetime\nLIMIT 100",
+  "median_ms": 100.55,
+  "min_ms": 99.05,
+  "max_ms": 112.89,
+  "runs": [
+    100.55,
+    99.25,
+    99.05,
+    112.89,
+    105.58
+  ],
+  "read_rows": 65409
+}
