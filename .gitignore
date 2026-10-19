@@ -1,0 +1,15 @@
+# Окружение
+.env
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Временные данные подмножества (большие CSV не коммитим)
+data/
+*.csv.gz
+scripts/subset.csv
+scripts/subset.tsv
+
+# Внимание: results/raw/ и results/summary.csv КОММИТЯТСЯ намеренно —
+# это сырые доказательства замеров (проверка Б1.1). Не добавляйте их сюда.
